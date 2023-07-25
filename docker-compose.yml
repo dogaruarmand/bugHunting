@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  bug_hunting:
+    image: 'bug_hunting'
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+    restart:
+      on-failure
+    networks:
+      - local-network
+  postgres:
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgresvol:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - local-network
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-U", "postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+  flyway:
+    image: flyway/flyway:9-alpine
+    command: -url=jdbc:postgresql://postgres:5432/postgres -user=postgres -password=postgres migrate
+    volumes:
+      - ./src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - local-network
+networks:
+  local-network:
+    driver: bridge
+volumes:
+  postgresvol:
