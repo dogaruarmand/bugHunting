@@ -11,7 +11,7 @@ services:
       flyway:
         condition: service_completed_successfully
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/BugHunting
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
@@ -22,6 +22,7 @@ services:
   postgres:
     image: postgres:15.2-alpine
     environment:
+      - POSTGRES_DB=BugHunting
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
@@ -37,7 +38,7 @@ services:
       retries: 2
   flyway:
     image: flyway/flyway:9-alpine
-    command: -url=jdbc:postgresql://postgres:5432/postgres -user=postgres -password=postgres migrate
+    command: -url=jdbc:postgresql://postgres:5432/BugHunting -user=postgres -password=postgres migrate
     volumes:
       - ./src/main/resources/db/migration:/flyway/sql
     depends_on:
