@@ -1,9 +1,9 @@
 CREATE TABLE users
 (
     user_id                bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    email                  varchar(30)    NOT NULL,
     first_name             varchar(30)    NOT NULL,
     last_name              varchar(30)    NOT NULL,
+    email                  varchar(30)    NOT NULL,
     password               varchar(30)    NOT NULL,
     role_id                smallint       NOT NULL,
     created_at             timestamp with time zone      NOT NULL DEFAULT (now() at time zone 'utc'),
