@@ -1,39 +1,25 @@
 package com.endava.bugHunting.bug_hunting.service;
 
-import com.endava.bugHunting.bug_hunting.constants.RolesType;
 import com.endava.bugHunting.bug_hunting.dto.UserDto;
 import com.endava.bugHunting.bug_hunting.entities.User;
 import com.endava.bugHunting.bug_hunting.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserRepository userRepository;
-    private RolesType rolesType;
 
     @Override
     public User save(UserDto userDto) {
-//        User user = new User(userDto.getFirstName(),
-//                userDto.getLastName(),
-//                userDto.getEmail(),
-//                userDto.getPassword(),
-//                List.of(userDto.getRolesType()),
-//                        userDto.getCreatedAt(),
-//                        userDto.getUpdatedAt());
-        User user = new User(
-                1,
-                "",
-                "",
-                "",
-                "",
-                null,
-                null,
-                null
-        );
+        User user = new User(userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                userDto.getRole());
 
         return userRepository.save(user);
     }

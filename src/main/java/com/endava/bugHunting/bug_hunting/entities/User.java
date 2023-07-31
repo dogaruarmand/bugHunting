@@ -1,25 +1,15 @@
 package com.endava.bugHunting.bug_hunting.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
-import java.util.Collection;
-
-@RequiredArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -43,10 +33,20 @@ public class User {
 
     private String role;
 
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+    public User(Long userId, String firstName, String lastName, String email, String password, String role) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
-    @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
-
+    public User(String firstName, String lastName, String email, String password, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
