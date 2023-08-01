@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final String EMAIL_NOT_UNIQUE_MSG = "Email %s already in database";
+    private static final String EMAIL_NOT_UNIQUE_MSG = "Email '%s' is already in database";
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -36,11 +36,6 @@ public class UserServiceImpl implements UserService {
 
         return userDto;
     }
-
-//    @Override
-//    public List<User> findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
 
     private Boolean isEmailPresent(UserDto userDto) {
         List<User> user = userRepository.findByEmail(userDto.getEmail());

@@ -1,6 +1,7 @@
 package com.endava.bugHunting.bug_hunting.controller;
 
 import com.endava.bugHunting.bug_hunting.dto.UserDto;
+import com.endava.bugHunting.bug_hunting.exceptions.errors.EmailExistException;
 import com.endava.bugHunting.bug_hunting.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,12 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public UserDto registerUserAccount(@RequestBody UserDto userDto) {
-//        Boolean emailPresent = isEmailPresent(userDto);
-//        if(emailPresent){
-//            throw new IllegalStateException(String.format(EMAIL_NOT_UNIQUE_MSG, userDto.getEmail()));
-//        }
+
         UserDto savedUser = userService.save(userDto);
         if (savedUser.getErrorMsg() != null) {
-            throw new IllegalStateException(savedUser.getErrorMsg());
+            throw new EmailExistException(savedUser.getErrorMsg());
         }
         return savedUser;
     }
 
-//    private Boolean isEmailPresent(UserDto userDto) {
-//        List<User> user = userService.findByEmail(userDto.getEmail());
-//        return user.size() > 0;
-//    }
 }
