@@ -18,4 +18,12 @@ public class UserDto {
     private String password;
     private String role;
     private String errorMsg;
+
+    public UserDto(String email, String password) {
+
+    }
+
+    public UserDto() {
+
+    }
 }
