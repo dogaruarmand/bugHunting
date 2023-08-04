@@ -16,4 +16,6 @@ public interface UserService {
     UserDto getById(Long userId);
 
     List<UserDto> getUsers(String email);
+
+    UserDto delete(Long userId);
 }

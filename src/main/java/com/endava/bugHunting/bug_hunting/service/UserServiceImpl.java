@@ -71,6 +71,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto delete(Long userId) {
+
+        UserDto deletedUser = new UserDto();
+        if (userRepository.findById(userId).isPresent()) {
+
+            User toBeDeleted = userRepository.findById(userId).get();
+            deletedUser.setUserId(toBeDeleted.getUserId());
+            deletedUser.setEmail(toBeDeleted.getEmail());
+
+            userRepository.deleteById(userId);
+        } else {
+            deletedUser.setErrorMsg(String.format(USER_NOT_FOUND, userId));
+        }
+
+        return deletedUser;
+    }
+
+    @Override
     public UserDto logIn(UserDto userDto) {
         Optional<User> loggedUser = userExist(userDto);
         if (loggedUser.isEmpty()) {
