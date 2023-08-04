@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,13 +67,25 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}")
-    public UserDto userDto(@PathVariable(value = "userId") Long userId) {
+    public UserDto getUser(@PathVariable(value = "userId") Long userId) {
         UserDto userById = userService.getById(userId);
         if (userById.getErrorMsg() != null) {
             throw new EntityNotFoundException(userById.getErrorMsg());
         }
 
         return userById;
+    }
+
+    @PutMapping(value = "/{userId}")
+    public UserDto updateUser(@PathVariable("userId") Long userId,
+                              @RequestBody UserDto userDto) {
+        ;
+        UserDto updatedUser = userService.update(userId, userDto);
+        if (updatedUser.getErrorMsg() != null) {
+            throw new EntityNotFoundException(updatedUser.getErrorMsg());
+        }
+
+        return updatedUser;
     }
 
 }

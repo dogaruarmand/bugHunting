@@ -47,6 +47,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto update(Long userId, UserDto userDto) {
+        Boolean emailPresent = isEmailPresent(userDto);
+        if (emailPresent) {
+            userDto.setErrorMsg(String.format(EMAIL_NOT_UNIQUE_MSG, userDto.getEmail()));
+            return userDto;
+        }
+
+        if (userRepository.findById(userId).isPresent()) {
+            User toBeSaved = userRepository.findById(userId).get();
+
+            toBeSaved.setFirstName(userDto.getFirstName());
+            toBeSaved.setLastName(userDto.getLastName());
+            toBeSaved.setEmail(userDto.getEmail());
+            toBeSaved.setPassword(userDto.getPassword());
+
+            User updatedUser = userRepository.save(toBeSaved);
+            userDto.setUserId(updatedUser.getUserId());
+            userDto.setRole(updatedUser.getRole());
+        }
+
+        return userDto;
+    }
+
+    @Override
     public UserDto logIn(UserDto userDto) {
         Optional<User> loggedUser = userExist(userDto);
         if (loggedUser.isEmpty()) {
