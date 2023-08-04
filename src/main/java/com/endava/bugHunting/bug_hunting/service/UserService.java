@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserService {
     UserDto save(UserDto userDto);
 
+    UserDto update(Long userId, UserDto userDto);
+
     UserDto logIn(UserDto userDto);
 
     void logOut(UserDto userDto);
