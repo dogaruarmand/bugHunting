@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
     private final String EMAIL_OR_PASSWORD_NOT_FOUND = "Email '%s' not found, or password incorrect";
     private final String USER_ALREADY_LOGGED_IN_MSG = "User '%s' already logged in!";
     private final String USER_NOT_FOUND = "User with id '%s' not found!";
+    private final String PERMISSIONS_DENIED_MSG = "User with email '%s', permission denied!";
     private Map<String, String> loggedUsers = new HashMap<>();
 
     @Override
@@ -80,6 +82,51 @@ public class UserServiceImpl implements UserService {
         }
 
         mapToDto(userById, userDto);
+        return userDto;
+    }
+
+    @Override
+    public List<UserDto> getUsers(String email) {
+
+        List<UserDto> usersDto = new ArrayList<>();
+
+        if (isAdmin(email)) {
+            List<User> allUsers = userRepository.findAll();
+
+            for (User user : allUsers) {
+                usersDto.add(mapToUsersDto(user));
+            }
+        } else {
+            usersDto.add(mapToUsersDtoError(email));
+        }
+
+        return usersDto;
+    }
+
+    private boolean isAdmin(String email) {
+
+        boolean admin = false;
+        for (Map.Entry<String, String> loggedUser : loggedUsers.entrySet()) {
+            admin = loggedUser.getKey().equals(email) && loggedUser.getValue().equals("ADMIN");
+            if (admin) break;
+        }
+
+        return admin;
+    }
+
+    private UserDto mapToUsersDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(user.getUserId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setRole(user.getRole());
+        return userDto;
+    }
+
+    private UserDto mapToUsersDtoError(String email) {
+        UserDto userDto = new UserDto();
+        userDto.setErrorMsg(String.format(PERMISSIONS_DENIED_MSG, email));
         return userDto;
     }
 
