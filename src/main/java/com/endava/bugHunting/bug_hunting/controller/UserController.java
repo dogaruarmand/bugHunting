@@ -7,10 +7,15 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,6 +52,16 @@ public class UserController {
     public String logOut(@RequestBody UserDto userDto) {
         userService.logOut(userDto);
         return String.format(LOG_OUT_SUCCESSFULLY_MSG, userDto.getEmail());
+    }
+
+    @GetMapping(value = "/{userId}")
+    public UserDto userDto(@PathVariable(value = "userId") Long userId) {
+        UserDto userById = userService.getById(userId);
+        if (userById.getErrorMsg() != null) {
+            throw new EntityNotFoundException(userById.getErrorMsg());
+        }
+
+        return userById;
     }
 
 }
