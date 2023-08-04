@@ -18,10 +18,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final String EMAIL_NOT_UNIQUE_MSG = "Email '%s' is already in database";
-    private static final String EMAIL_OR_PASSWORD_NOT_FOUND = "Email '%s' not found, or password incorrect";
-    private static final String USER_ALREADY_LOGGED_IN_MSG = "User '%s' already logged in!";
-    private static Map<String, String> loggedUsers = new HashMap<>();
+    private final String EMAIL_NOT_UNIQUE_MSG = "Email '%s' is already in database";
+    private final String EMAIL_OR_PASSWORD_NOT_FOUND = "Email '%s' not found, or password incorrect";
+    private final String USER_ALREADY_LOGGED_IN_MSG = "User '%s' already logged in!";
+    private Map<String, String> loggedUsers = new HashMap<>();
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -62,7 +62,14 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private static boolean userAlreadyLogged(UserDto userDto) {
+    @Override
+    public void logOut(UserDto userDto) {
+        if (userAlreadyLogged(userDto)) {
+            loggedUsers.remove(userDto.getEmail());
+        }
+    }
+
+    private boolean userAlreadyLogged(UserDto userDto) {
         return loggedUsers.containsKey(userDto.getEmail());
     }
 
