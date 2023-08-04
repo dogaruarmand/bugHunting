@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,13 +80,25 @@ public class UserController {
     @PutMapping(value = "/{userId}")
     public UserDto updateUser(@PathVariable("userId") Long userId,
                               @RequestBody UserDto userDto) {
-        ;
+
         UserDto updatedUser = userService.update(userId, userDto);
         if (updatedUser.getErrorMsg() != null) {
             throw new EntityNotFoundException(updatedUser.getErrorMsg());
         }
 
         return updatedUser;
+    }
+
+    @DeleteMapping(value = "/delete/{userId}")
+    public UserDto deleteUser(@PathVariable("userId") Long userId) {
+
+        UserDto deletedUser = userService.delete(userId);
+
+        if (deletedUser.getErrorMsg() != null) {
+            throw new EntityNotFoundException(deletedUser.getErrorMsg());
+        }
+
+        return deletedUser;
     }
 
 }
