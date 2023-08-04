@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final String EMAIL_NOT_UNIQUE_MSG = "Email '%s' is already in database";
     private final String EMAIL_OR_PASSWORD_NOT_FOUND = "Email '%s' not found, or password incorrect";
     private final String USER_ALREADY_LOGGED_IN_MSG = "User '%s' already logged in!";
+    private final String USER_NOT_FOUND = "User with id '%s' not found!";
     private Map<String, String> loggedUsers = new HashMap<>();
 
     @Override
@@ -69,6 +70,28 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserDto getById(Long userId) {
+        Optional<User> userById = getUserById(userId);
+        UserDto userDto = new UserDto();
+        if (userById.isEmpty()) {
+            userDto.setErrorMsg(String.format(USER_NOT_FOUND, userId));
+            return userDto;
+        }
+
+        mapToDto(userById, userDto);
+        return userDto;
+    }
+
+    private void mapToDto(Optional<User> userById, UserDto userDto) {
+        userDto.setUserId(userById.get().getUserId());
+        userDto.setFirstName(userById.get().getFirstName());
+        userDto.setLastName(userById.get().getLastName());
+        userDto.setEmail(userById.get().getEmail());
+        userDto.setPassword(userById.get().getPassword());
+        userDto.setRole(userById.get().getRole());
+    }
+
     private boolean userAlreadyLogged(UserDto userDto) {
         return loggedUsers.containsKey(userDto.getEmail());
     }
@@ -80,6 +103,11 @@ public class UserServiceImpl implements UserService {
 
     private Optional<User> userExist(UserDto userDto) {
         Optional<User> user = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+        return user;
+    }
+
+    private Optional<User> getUserById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
         return user;
     }
 }
