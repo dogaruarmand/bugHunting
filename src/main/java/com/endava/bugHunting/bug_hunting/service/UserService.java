@@ -7,4 +7,5 @@ public interface UserService {
 
     UserDto logIn(UserDto userDto);
 
+    void logOut(UserDto userDto);
 }

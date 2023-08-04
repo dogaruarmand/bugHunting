@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private static final String LOGGED_IN_SUCCESSFULLY_MSG = "User '%s' logged in successfully!";
+    private static final String LOG_OUT_SUCCESSFULLY_MSG = "User '%s' logged out successfully!";
 
     @Autowired
     private UserService userService;
@@ -40,6 +41,12 @@ public class UserController {
         }
 
         return String.format(LOGGED_IN_SUCCESSFULLY_MSG, userDto.getEmail());
+    }
+
+    @GetMapping(value = "/logout")
+    public String logOut(@RequestBody UserDto userDto) {
+        userService.logOut(userDto);
+        return String.format(LOG_OUT_SUCCESSFULLY_MSG, userDto.getEmail());
     }
 
 }
