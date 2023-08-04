@@ -6,16 +6,16 @@ import com.endava.bugHunting.bug_hunting.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +27,17 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserDto> getUsers(
+            @RequestParam(name = "email", required = true) String email) {
+        List<UserDto> users = userService.getUsers(email);
+        if (users.get(0).getErrorMsg() != null) {
+            throw new EntityNotFoundException(users.get(0).getErrorMsg());
+        }
+
+        return users;
+    }
 
     @PostMapping(value = "/register")
     public UserDto registerUserAccount(@RequestBody UserDto userDto) {
