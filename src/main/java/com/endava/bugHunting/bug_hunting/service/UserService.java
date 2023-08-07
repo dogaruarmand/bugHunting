@@ -3,6 +3,7 @@ package com.endava.bugHunting.bug_hunting.service;
 import com.endava.bugHunting.bug_hunting.dto.UserDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     UserDto save(UserDto userDto);
@@ -18,4 +19,6 @@ public interface UserService {
     List<UserDto> getUsers(String email);
 
     UserDto delete(Long userId);
+
+    public boolean userAlreadyLogged(String email);
 }

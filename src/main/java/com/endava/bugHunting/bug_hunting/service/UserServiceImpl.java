@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final String USER_ALREADY_LOGGED_IN_MSG = "User '%s' already logged in!";
     private final String USER_NOT_FOUND = "User with id '%s' not found!";
     private final String PERMISSIONS_DENIED_MSG = "User with email '%s', permission denied!";
+
     private Map<String, String> loggedUsers = new HashMap<>();
 
     @Override
@@ -185,8 +186,12 @@ public class UserServiceImpl implements UserService {
         userDto.setRole(userById.get().getRole());
     }
 
-    private boolean userAlreadyLogged(UserDto userDto) {
+    public boolean userAlreadyLogged(UserDto userDto) {
         return loggedUsers.containsKey(userDto.getEmail());
+    }
+
+    public boolean userAlreadyLogged(String email) {
+        return loggedUsers.containsKey(email);
     }
 
     private Boolean isEmailPresent(UserDto userDto) {
