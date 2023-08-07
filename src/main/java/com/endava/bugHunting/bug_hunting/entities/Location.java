@@ -12,10 +12,7 @@ import org.hibernate.type.SqlTypes;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "location_gen")
-    @SequenceGenerator(name = "location_gen", sequenceName = "location_seq")
-    @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "ADDRESS", nullable = false)
