@@ -27,24 +27,28 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    private String phone;
+
     private String email;
 
     private String password;
 
     private String role;
 
-    public User(Long userId, String firstName, String lastName, String email, String password, String role) {
+    public User(Long userId, String firstName, String lastName, String phone, String email, String password, String role) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    public User(String firstName, String lastName, String email, String password, String role) {
+    public User(String firstName, String lastName, String phone, String email, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phone = phone;
         this.email = email;
         this.password = password;
         this.role = role;
