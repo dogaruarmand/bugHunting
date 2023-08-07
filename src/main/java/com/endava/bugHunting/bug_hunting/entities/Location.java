@@ -6,9 +6,11 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "location")
+@Table(name = "LOCATIONS")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Location {
 
     @Id
