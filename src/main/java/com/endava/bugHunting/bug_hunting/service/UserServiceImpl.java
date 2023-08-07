@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(userDto.getFirstName(),
                 userDto.getLastName(),
+                userDto.getPhone(),
                 userDto.getEmail(),
                 userDto.getPassword(),
                 userDto.getRole());
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
             toBeSaved.setFirstName(userDto.getFirstName());
             toBeSaved.setLastName(userDto.getLastName());
+            toBeSaved.setPhone(userDto.getPhone());
             toBeSaved.setEmail(userDto.getEmail());
             toBeSaved.setPassword(userDto.getPassword());
 
@@ -161,6 +163,7 @@ public class UserServiceImpl implements UserService {
         userDto.setUserId(user.getUserId());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
+        userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
         userDto.setRole(user.getRole());
         return userDto;
@@ -176,6 +179,7 @@ public class UserServiceImpl implements UserService {
         userDto.setUserId(userById.get().getUserId());
         userDto.setFirstName(userById.get().getFirstName());
         userDto.setLastName(userById.get().getLastName());
+        userDto.setPhone(userById.get().getPhone());
         userDto.setEmail(userById.get().getEmail());
         userDto.setPassword(userById.get().getPassword());
         userDto.setRole(userById.get().getRole());
