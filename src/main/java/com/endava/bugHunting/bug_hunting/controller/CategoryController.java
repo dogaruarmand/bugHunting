@@ -1,8 +1,10 @@
 package com.endava.bugHunting.bug_hunting.controller;
 
+
+import com.endava.bugHunting.bug_hunting.dto.CategoryDto;
 import com.endava.bugHunting.bug_hunting.dto.LocationDto;
-import com.endava.bugHunting.bug_hunting.dto.UserDto;
 import com.endava.bugHunting.bug_hunting.exceptions.errors.EmailExistException;
+import com.endava.bugHunting.bug_hunting.service.CategoryService;
 import com.endava.bugHunting.bug_hunting.service.LocationService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,28 +17,29 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/locations")
-public class LocationController {
+@RequestMapping("api/v1/categories")
+public class CategoryController {
 
     @Autowired
-    private LocationService locationService;
+    private CategoryService categoryService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<LocationDto> getLocations() {
-        List<LocationDto> locations = locationService.findAll();
-        if (locations.isEmpty()) {
-            throw new EntityNotFoundException("No locations were found");
+    public List<CategoryDto> getCategories() {
+        List<CategoryDto> categories = categoryService.findAll();
+        if (categories.isEmpty()) {
+            throw new EntityNotFoundException("No categories were found");
         }
 
-        return locations;
+        return categories;
     }
 
     @PostMapping(value = "/save")
-    public LocationDto save(@RequestBody LocationDto locationDto) {
-        locationDto = locationService.save(locationDto);
-        if(!StringUtils.isEmpty(locationDto.getErrorMessage())) {
-            throw new EmailExistException(locationDto.getErrorMessage());
+    public CategoryDto save(@RequestBody CategoryDto categoryDto) {
+        categoryDto = categoryService.save(categoryDto);
+        if(categoryDto.hasErrors()) {
+            throw new EmailExistException(categoryDto.getError());
         }
-        return locationDto;
+        return categoryDto;
     }
+
 }

@@ -66,7 +66,11 @@ public class LocationServiceImpl implements LocationService {
             return location;
         }
 
-        Location loc = locationRepository.save(Location.builder().address(location.getAddress()).build());
+        Location loc = locationRepository.save(Location.builder()
+                .address(location.getAddress())
+                .name(location.getName())
+                .phoneNumber(location.getPhoneNumber())
+                .build());
         location.setId(loc.getId());
         return location;
     }
