@@ -1,17 +1,15 @@
 package com.endava.bugHunting.bug_hunting.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class UserDto {
 
-    private Long userId;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String phone;

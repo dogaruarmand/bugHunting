@@ -43,13 +43,30 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDto;
     }
 
+    @Override
+    public CategoryDto findCategory(String category) {
+        CategoryDto dto = new CategoryDto();
+        Category persist =categoryRepository.findCategoryByCategory(category);
+
+        if(persist == null) {
+            dto.setError(String.format("Category %s don't exist!", category));
+        } else {
+            dto = dto.builder()
+                    .id(persist.getId())
+                    .category(persist.getCategory())
+                    .build();
+        }
+
+        return dto;
+    }
+
     private CategoryDto validate(CategoryDto categoryDto) {
         if (StringUtils.isEmpty(categoryDto.getCategory())) {
             categoryDto.setError("The category cannot be null!");
             return categoryDto;
         }
 
-        Category category = categoryRepository.findCategoryByCatgory(categoryDto.getCategory());
+        Category category = categoryRepository.findCategoryByCatgoryLowerCase(categoryDto.getCategory());
         if (category != null) {
             categoryDto.setError("The current category already exists!");
         }

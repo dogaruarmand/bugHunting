@@ -6,14 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDto {
+@Data
+@Builder
+public class BreedDto {
 
     private Integer id;
+    private Integer idCategory;
     private String category;
+    private String breed;
     private String error;
 
     public boolean hasErrors() {
@@ -22,5 +24,4 @@ public class CategoryDto {
         }
         return !StringUtils.isEmpty(error);
     }
-
 }
