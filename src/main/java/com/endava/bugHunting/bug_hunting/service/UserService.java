@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDto logIn(UserDto userDto);
 
-    void logOut(UserDto userDto);
+    void logOut(String email);
 
     UserDto getById(Long userId);
 
