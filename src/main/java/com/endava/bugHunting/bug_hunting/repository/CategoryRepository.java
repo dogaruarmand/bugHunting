@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query(value="select * from categories where lower(category) = lower(?1)", nativeQuery = true)
-    Category findCategoryByCatgory(String category);
+    Category findCategoryByCatgoryLowerCase(String category);
 
+    Category findCategoryByCategory(String category);
 }
