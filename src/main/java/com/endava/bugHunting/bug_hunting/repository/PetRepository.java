@@ -8,7 +8,16 @@ import java.util.List;
 
 public interface PetRepository extends JpaRepository<Pet, Integer> {
 
-    @Query(value = "select * from pets where foster_user_id = ?1", nativeQuery = true)
-    public List<Pet> findAllByFoster(Integer userId);
+    @Query(value = """
+            select pets.* 
+            from 
+                pets, 
+                users
+            where 
+                pets.user_id = users.user_id 
+                and users.role = 'ADMIN'
+                or users.user_id = ?1 
+            """, nativeQuery = true)
+    public List<Pet> findAllByUser(Integer userId);
 
 }

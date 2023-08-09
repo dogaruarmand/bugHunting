@@ -7,12 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 

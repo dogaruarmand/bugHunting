@@ -1,6 +1,7 @@
 package com.endava.bugHunting.bug_hunting.dto;
 
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @Setter
@@ -24,5 +25,12 @@ public class UserDto {
 
     public UserDto() {
 
+    }
+
+    public boolean hasErrors() {
+        if(errorMsg == null) {
+            return false;
+        }
+        return !StringUtils.isEmpty(errorMsg);
     }
 }

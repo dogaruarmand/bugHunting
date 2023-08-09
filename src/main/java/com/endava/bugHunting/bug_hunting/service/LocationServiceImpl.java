@@ -3,13 +3,12 @@ package com.endava.bugHunting.bug_hunting.service;
 import com.endava.bugHunting.bug_hunting.dto.LocationDto;
 import com.endava.bugHunting.bug_hunting.entities.Location;
 import com.endava.bugHunting.bug_hunting.repository.LocationRepository;
-
-import java.util.List;
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -73,6 +72,25 @@ public class LocationServiceImpl implements LocationService {
                 .build());
         location.setId(loc.getId());
         return location;
+    }
+
+    @Override
+    public LocationDto findLocation(String name) {
+        LocationDto dto = new LocationDto();
+        Location persist = locationRepository.findLocationByName(name);
+
+        if(persist == null) {
+            dto.setErrorMessage(String.format("Breed %s don't exist!", name));
+        } else {
+            dto = dto.builder()
+                    .id(persist.getId())
+                    .phoneNumber(persist.getPhoneNumber())
+                    .name(persist.getName())
+                    .address(persist.getAddress())
+                    .build();
+        }
+
+        return dto;
     }
 
 }

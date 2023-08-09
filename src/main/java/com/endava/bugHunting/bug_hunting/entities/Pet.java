@@ -48,14 +48,6 @@ public class Pet {
     private String addopted; //yes/no
 
     @ManyToOne
-    @JoinColumn(name = "foster_user_id")
-    private User foster;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category type;
 
@@ -69,4 +61,13 @@ public class Pet {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "foster_user_id")
+    private User foster;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
