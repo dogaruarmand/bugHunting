@@ -13,7 +13,7 @@ public interface UserService {
 
     UserDto update(Long userId, UserDto userDto);
 
-    UserDto logIn(UserDto userDto);
+    UserDto logIn(String email, String password);
 
     void logOut(String email);
 
