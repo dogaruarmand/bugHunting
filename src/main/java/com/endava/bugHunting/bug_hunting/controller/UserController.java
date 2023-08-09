@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,7 +32,8 @@ public class UserController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDto> getUsers(
-            @RequestParam(name = "email", required = true) String email) {
+            @RequestHeader(name = "email", required = true) String email) {
+
         List<UserDto> users = userService.getUsers(email);
         if (users.get(0).getErrorMsg() != null) {
             throw new EntityNotFoundException(users.get(0).getErrorMsg());
@@ -53,18 +53,21 @@ public class UserController {
     }
 
     @GetMapping(value = "/login")
-    public String logIn(@RequestBody UserDto userDto) {
-        UserDto loggedUser = userService.logIn(userDto);
+    public String logIn(@RequestHeader(name = "email", required = true) String email,
+                        @RequestHeader(name = "password", required = true) String password) {
+
+        UserDto loggedUser = userService.logIn(email, password);
         if (loggedUser.getErrorMsg() != null) {
             throw new EntityNotFoundException(loggedUser.getErrorMsg());
         }
 
-        return String.format(LOGGED_IN_SUCCESSFULLY_MSG, userDto.getEmail());
+        return String.format(LOGGED_IN_SUCCESSFULLY_MSG, email);
     }
 
     @GetMapping(value = "/logout")
     public String logOut(@RequestHeader String email) {
         userService.logOut(email);
+
         return String.format(LOG_OUT_SUCCESSFULLY_MSG, email);
     }
 

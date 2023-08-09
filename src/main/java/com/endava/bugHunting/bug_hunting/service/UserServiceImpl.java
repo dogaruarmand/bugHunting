@@ -4,7 +4,6 @@ import com.endava.bugHunting.bug_hunting.dto.UserDto;
 import com.endava.bugHunting.bug_hunting.entities.User;
 import com.endava.bugHunting.bug_hunting.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,19 +92,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto logIn(UserDto userDto) {
-        Optional<User> loggedUser = userExist(userDto);
+    public UserDto logIn(String email, String password) {
+        Optional<User> loggedUser = userExist(email, password);
         if (loggedUser.isEmpty()) {
-            userDto.setErrorMsg(String.format(EMAIL_OR_PASSWORD_NOT_FOUND, userDto.getEmail()));
-            return userDto;
+            String errorMsg = String.format(EMAIL_OR_PASSWORD_NOT_FOUND, email);
+            return mapToUsersDtoError(errorMsg);
         }
 
-        if (userAlreadyLogged(userDto)) {
-            userDto.setErrorMsg(String.format(USER_ALREADY_LOGGED_IN_MSG, userDto.getEmail()));
-            return userDto;
+        if (userAlreadyLogged(email)) {
+            String errorMsg = String.format(USER_ALREADY_LOGGED_IN_MSG, email);
+            return mapToUsersDtoError(errorMsg);
         }
 
-        loggedUsers.put(userDto.getEmail(), loggedUser.get().getRole());
+        loggedUsers.put(email, loggedUser.get().getRole());
+        UserDto userDto = new UserDto();
+        userDto.setEmail(email);
         userDto.setRole(loggedUser.get().getRole());
 
         return userDto;
@@ -143,7 +144,8 @@ public class UserServiceImpl implements UserService {
                 usersDto.add(mapToUsersDto(user));
             }
         } else {
-            usersDto.add(mapToUsersDtoError(email));
+            String errorMsg = String.format(PERMISSIONS_DENIED_MSG, email);
+            usersDto.add(mapToUsersDtoError(errorMsg));
         }
 
         return usersDto;
@@ -168,12 +170,14 @@ public class UserServiceImpl implements UserService {
         userDto.setPhone(user.getPhone());
         userDto.setEmail(user.getEmail());
         userDto.setRole(user.getRole());
+
         return userDto;
     }
 
-    private UserDto mapToUsersDtoError(String email) {
+    private UserDto mapToUsersDtoError(String errorMsg) {
         UserDto userDto = new UserDto();
-        userDto.setErrorMsg(String.format(PERMISSIONS_DENIED_MSG, email));
+        userDto.setErrorMsg(errorMsg);
+
         return userDto;
     }
 
@@ -187,10 +191,6 @@ public class UserServiceImpl implements UserService {
         userDto.setRole(userById.get().getRole());
     }
 
-    public boolean userAlreadyLogged(UserDto userDto) {
-        return loggedUsers.containsKey(userDto.getEmail());
-    }
-
     public boolean userAlreadyLogged(String email) {
         return loggedUsers.containsKey(email);
     }
@@ -201,21 +201,25 @@ public class UserServiceImpl implements UserService {
         if (users.isEmpty()) {
             return null;
         }
+
         return mapToUsersDto(users.get(0));
     }
 
     private Boolean isEmailPresent(UserDto userDto) {
         List<User> user = userRepository.findByEmail(userDto.getEmail());
+
         return user.size() > 0;
     }
 
-    private Optional<User> userExist(UserDto userDto) {
-        Optional<User> user = userRepository.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+    private Optional<User> userExist(String email, String password) {
+        Optional<User> user = userRepository.findByEmailAndPassword(email, password);
+
         return user;
     }
 
     private Optional<User> getUserById(Long userId) {
         Optional<User> user = userRepository.findById(userId);
+
         return user;
     }
 }

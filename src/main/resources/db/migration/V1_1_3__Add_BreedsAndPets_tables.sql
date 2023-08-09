@@ -23,7 +23,7 @@ create table pets
     breed_id       bigint       not null,
     location_id    bigint       not null,
     description    varchar(500) not null,
-    user_id        bigint       not null,
+    user_id        bigint       not null
 );
 
 ALTER TABLE pets

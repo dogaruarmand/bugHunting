@@ -1,6 +1,7 @@
 package com.endava.bugHunting.bug_hunting.exceptions;
 
 import com.endava.bugHunting.bug_hunting.exceptions.errors.EmailExistException;
+import com.endava.bugHunting.bug_hunting.exceptions.errors.NotLoggedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -41,6 +42,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleBadRequest(
             EmailExistException ex) {
         ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(NotLoggedException.class)
+    protected ResponseEntity<Object> handleNotFound(
+            EmailExistException ex) {
+        ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
