@@ -112,9 +112,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void logOut(UserDto userDto) {
-        if (userAlreadyLogged(userDto)) {
-            loggedUsers.remove(userDto.getEmail());
+    public void logOut(String email) {
+        if (userAlreadyLogged(email)) {
+            loggedUsers.remove(email);
         }
     }
 
