@@ -6,14 +6,16 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 @Entity
-@Table(name = "location")
+@Table(name = "LOCATIONS")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "ADDRESS", nullable = false)
     private String address;

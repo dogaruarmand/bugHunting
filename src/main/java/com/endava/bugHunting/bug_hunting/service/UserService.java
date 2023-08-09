@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService {
+
+    public static final String ROLE_USER = "USER";
+    public static final String ROLE_ADMIN = "ADMIN";
     UserDto save(UserDto userDto);
 
     UserDto update(Long userId, UserDto userDto);
@@ -21,4 +24,8 @@ public interface UserService {
     UserDto delete(Long userId);
 
     public boolean userAlreadyLogged(String email);
+
+    public UserDto findByEmail(String email);
+
+    public boolean isAdmin(String email);
 }

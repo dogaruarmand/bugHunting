@@ -4,6 +4,7 @@ import com.endava.bugHunting.bug_hunting.dto.UserDto;
 import com.endava.bugHunting.bug_hunting.entities.User;
 import com.endava.bugHunting.bug_hunting.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -148,7 +149,7 @@ public class UserServiceImpl implements UserService {
         return usersDto;
     }
 
-    private boolean isAdmin(String email) {
+    public boolean isAdmin(String email) {
 
         boolean admin = false;
         for (Map.Entry<String, String> loggedUser : loggedUsers.entrySet()) {
@@ -192,6 +193,15 @@ public class UserServiceImpl implements UserService {
 
     public boolean userAlreadyLogged(String email) {
         return loggedUsers.containsKey(email);
+    }
+
+    @Override
+    public UserDto findByEmail(String email) {
+        List<User> users = userRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            return null;
+        }
+        return mapToUsersDto(users.get(0));
     }
 
     private Boolean isEmailPresent(UserDto userDto) {
