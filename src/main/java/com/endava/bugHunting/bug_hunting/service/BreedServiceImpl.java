@@ -57,6 +57,23 @@ public class BreedServiceImpl implements BreedService {
         return dto;
     }
 
+    @Override
+    public BreedDto findBreed(String breed) {
+        BreedDto dto = new BreedDto();
+        Breed persist = breedRepository.findBreedByBreed(breed);
+
+        if(persist == null) {
+            dto.setError(String.format("Breed %s don't exist!", breed));
+        } else {
+            dto = dto.builder()
+                    .id(persist.getId())
+                    .category(persist.getBreed())
+                    .build();
+        }
+
+        return dto;
+    }
+
     private BreedDto validate(BreedDto dto) {
         if (StringUtils.isEmpty(dto.getBreed())) {
             dto.setError("Breed must not be null!");

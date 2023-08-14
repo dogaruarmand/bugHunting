@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @Builder
@@ -38,4 +39,12 @@ public class PetDto {
     private String userEmail;
     private String userPhone;
     private String userRole;
+    private String error;
+
+    public boolean hasErrors() {
+        if(error == null) {
+            return false;
+        }
+        return !StringUtils.isEmpty(error);
+    }
 }

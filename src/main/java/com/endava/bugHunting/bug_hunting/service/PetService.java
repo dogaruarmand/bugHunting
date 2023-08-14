@@ -7,4 +7,6 @@ import java.util.List;
 public interface PetService {
 
     public List<PetDto> findMyPets(String user);
+
+    public PetDto save(PetDto pet);
 }
