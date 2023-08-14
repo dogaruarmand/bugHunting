@@ -8,4 +8,6 @@ public interface BreedService {
     public List<BreedDto> findAll();
 
     public BreedDto save(BreedDto breed);
+
+    public BreedDto findBreed(String breed);
 }
