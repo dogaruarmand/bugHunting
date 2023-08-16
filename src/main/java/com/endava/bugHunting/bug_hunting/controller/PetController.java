@@ -28,6 +28,15 @@ public class PetController {
         return pets;
     }
 
+    @PostMapping(value = "/adoptPet")
+    public PetDto adoptPet(@RequestHeader Integer petId, @RequestHeader String email) {
+        PetDto pet = petService.addoptPet(petId, email);
+        if(pet.hasErrors()) {
+            throw new EntityNotFoundException(pet.getError());
+        }
+        return pet;
+    }
+
     @PostMapping(value = "/save")
     public PetDto save(@RequestBody PetDto petDto) {
         petDto = petService.save(petDto);
