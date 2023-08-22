@@ -2,11 +2,22 @@ package com.endava.bugHunting.bug_hunting.service;
 
 import com.endava.bugHunting.bug_hunting.dto.CategoryDto;
 import com.endava.bugHunting.bug_hunting.entities.Category;
+import com.endava.bugHunting.bug_hunting.entities.ProductImage;
 import com.endava.bugHunting.bug_hunting.repository.CategoryRepository;
+import com.endava.bugHunting.bug_hunting.repository.ProductImageRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,6 +26,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductImageRepository imageRepo;
+
+    private final Path tempDirWithPrefix = Files.createTempDirectory("img");
+    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd-mm-ss");
+
+    public CategoryServiceImpl() throws IOException {
+    }
 
     @Override
     public List<CategoryDto> findAll() {
@@ -28,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto save(CategoryDto categoryDto) {
+    public CategoryDto save(CategoryDto categoryDto, MultipartFile file) throws IOException {
         categoryDto = validate(categoryDto);
         if(categoryDto.hasErrors()) {
             return categoryDto;
@@ -36,10 +56,21 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = Category.builder()
                 .category(categoryDto.getCategory())
+                .imageName(getFileName(file.getOriginalFilename()))
+                .imageType(file.getContentType())
+                .imagePath(tempDirWithPrefix.toString())
                 .build();
 
         category = categoryRepository.save(category);
         categoryDto.setId(category.getId());
+        // save image
+//        ProductImage pImage = new ProductImage();
+//        pImage.setName(file.getOriginalFilename());
+//        pImage.setType(file.getContentType());
+//        pImage.setImagePath(tempDirWithPrefix.toString());
+
+        file.transferTo(new File(tempDirWithPrefix.toUri()));
+
         return categoryDto;
     }
 
@@ -72,5 +103,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categoryDto;
+    }
+
+    private String getFileName(String imageType) {
+        OffsetDateTime currentDateTime = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
+        StringBuilder fileName = new StringBuilder(DATE_FORMATTER.format(currentDateTime));
+        fileName.append(".");
+        fileName.append(imageType);
+        return fileName.toString();
     }
 }

@@ -14,6 +14,8 @@ public class CategoryDto {
 
     private Integer id;
     private String category;
+    private String imageName;
+    private String imageType;
     private String error;
 
     public boolean hasErrors() {

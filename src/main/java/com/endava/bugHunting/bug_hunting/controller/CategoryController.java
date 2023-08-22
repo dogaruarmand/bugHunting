@@ -12,7 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,8 +36,9 @@ public class CategoryController {
     }
 
     @PostMapping(value = "/save")
-    public CategoryDto save(@RequestBody CategoryDto categoryDto) {
-        categoryDto = categoryService.save(categoryDto);
+    public CategoryDto save(@RequestBody CategoryDto categoryDto,
+                            @RequestParam("productImage") MultipartFile file) throws IOException {
+        categoryDto = categoryService.save(categoryDto, file);
         if(categoryDto.hasErrors()) {
             throw new EmailExistException(categoryDto.getError());
         }

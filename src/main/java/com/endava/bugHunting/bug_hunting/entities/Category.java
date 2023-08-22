@@ -28,4 +28,13 @@ public class Category {
 
     @Column(name = "CATEGORY", nullable = false)
     private String category;
+
+    @Column(name = "image_name")
+    private String imageName;
+
+    @Column(name = "image_type")
+    private String imageType;
+
+    @Column(name = "image_path")
+    private String imagePath;
 }
