@@ -5,6 +5,9 @@ import com.endava.bugHunting.bug_hunting.entities.*;
 import com.endava.bugHunting.bug_hunting.repository.PetRepository;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,48 +34,45 @@ public class PetServiceImpl implements PetService {
     private LocationService locationService;
 
 
-
     private PetDto validate(PetDto dto) {
-        if(StringUtils.isEmpty(dto.getName())) {
+        if (StringUtils.isEmpty(dto.getName())) {
             dto.setError("Name should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getName())) {
+        if (StringUtils.isEmpty(dto.getName())) {
             dto.setError("Name should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getOwnersName())) {
+        if (StringUtils.isEmpty(dto.getOwnersName())) {
             dto.setError("Owner name should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getOwnersEmail())) {
+        if (StringUtils.isEmpty(dto.getOwnersEmail())) {
             dto.setError("Owner email should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getOwnersPhone())) {
+        if (StringUtils.isEmpty(dto.getOwnersPhone())) {
             dto.setError("Owner phone should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getGender())) {
+        if (StringUtils.isEmpty(dto.getGender())) {
             dto.setError("Gender should not be empty!");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getAddopted()) && !"NO".equalsIgnoreCase(dto.getAddopted())) {
-            dto.setAddopted("NO");
-        }
+        dto.setAddopted("NO");
 
-        if(StringUtils.isEmpty(dto.getCategory())) {
+        if (StringUtils.isEmpty(dto.getCategory())) {
             dto.setError("Category should not be empty!");
             return dto;
         } else {
             CategoryDto category = categoryService.findCategory(dto.getCategory());
-            if(category.hasErrors()) {
+            if (category.hasErrors()) {
                 dto.setError(category.getError());
                 return dto;
             } else {
@@ -80,13 +80,13 @@ public class PetServiceImpl implements PetService {
             }
         }
 
-        if(StringUtils.isEmpty(dto.getBreed())) {
+        if (StringUtils.isEmpty(dto.getBreed())) {
             dto.setError("Breed should not be empty!");
             return dto;
         } else {
             BreedDto breed = breedService.findBreed(dto.getBreed());
 
-            if(breed.hasErrors()) {
+            if (breed.hasErrors()) {
                 dto.setError(breed.getError());
                 return dto;
             } else {
@@ -94,13 +94,13 @@ public class PetServiceImpl implements PetService {
             }
         }
 
-        if(StringUtils.isEmpty(dto.getLocationName())) {
+        if (StringUtils.isEmpty(dto.getLocationName())) {
             dto.setError("Location name should not be empty!");
             return dto;
         } else {
             LocationDto location = locationService.findLocation(dto.getLocationName());
 
-            if(location.hasErrors()) {
+            if (location.hasErrors()) {
                 dto.setError(location.getErrorMessage());
                 return dto;
             } else {
@@ -111,18 +111,18 @@ public class PetServiceImpl implements PetService {
             }
         }
 
-        if(StringUtils.isEmpty(dto.getDescription())) {
+        if (StringUtils.isEmpty(dto.getDescription())) {
             dto.setError("Description should not be empty");
             return dto;
         }
 
-        if(StringUtils.isEmpty(dto.getUserEmail())) {
+        if (StringUtils.isEmpty(dto.getUserEmail())) {
             dto.setError("User Email should not be empty!");
             return dto;
         } else {
             UserDto userDto = userService.findByEmail(dto.getUserEmail());
 
-            if(userDto.hasErrors()) {
+            if (userDto.hasErrors()) {
                 dto.setError(userDto.getErrorMsg());
                 return dto;
             } else {
@@ -165,7 +165,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public PetDto save(PetDto petDto) {
         petDto = validate(petDto);
-        if(petDto.hasErrors()) {
+        if (petDto.hasErrors()) {
             return petDto;
         }
 
@@ -178,7 +178,7 @@ public class PetServiceImpl implements PetService {
     }
 
     private PetDto mapToDto(Pet pet) {
-        return PetDto.builder()
+        PetDto petDto = PetDto.builder()
                 .id(pet.getId())
                 .name(pet.getName())
                 .age(pet.getAge())
@@ -187,11 +187,6 @@ public class PetServiceImpl implements PetService {
                 .ownersEmail(pet.getOwnersEmail())
                 .gender(pet.getGender())
                 .addopted(pet.getAddopted())
-                .fosterId(pet.getFoster().getUserId())
-                .fosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName())
-                .fosterEmail(pet.getFoster().getEmail())
-                .fosterPhone(pet.getFoster().getPhone())
-                .fosterRole((pet.getFoster().getRole()))
                 .categoryId(pet.getType().getId())
                 .category(pet.getType().getCategory())
                 .breedId(pet.getBreed().getId())
@@ -207,11 +202,22 @@ public class PetServiceImpl implements PetService {
                 .userRole(pet.getUser().getRole())
                 .userName(pet.getUser().getFirstName() + " " + pet.getUser().getLastName())
                 .build();
+
+        if (pet.getFoster() != null) {
+            petDto = PetDto.builder()
+                    .fosterId(pet.getFoster().getUserId())
+                    .fosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName())
+                    .fosterEmail(pet.getFoster().getEmail())
+                    .fosterPhone(pet.getFoster().getPhone())
+                    .fosterRole((pet.getFoster().getRole()))
+                    .build();
+        }
+        return petDto;
     }
 
 
     public Pet mapToPersist(PetDto dto) {
-        return Pet.builder()
+        Pet pet = Pet.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .age(dto.getAge())
@@ -227,6 +233,55 @@ public class PetServiceImpl implements PetService {
                 .location(Location.builder().id(dto.getLocationId()).build())
                 .description(dto.getDescription())
                 .build();
+
+        if(dto.getFosterId() != null) {
+            pet.setFoster(User.builder().userId(dto.getFosterId()).build());
+        }
+
+        return pet;
+    }
+
+    public PetDto addoptPet(Integer petId, String email) {
+        PetDto petDto = new PetDto();
+
+        Optional<Pet> petPersist = petRepository.findById(petId);
+        if (!petPersist.isPresent()) {
+            petDto.setError("The pet you want to adopted don't exists!");
+            return petDto;
+        }
+
+        petDto = mapToDto(petPersist.get());
+
+        if ("YES".equalsIgnoreCase(petDto.getAddopted())) {
+            petDto.setError("This pet is already adopted!");
+            return petDto;
+        }
+
+        UserDto user = userService.findByEmail(email);
+        if (user == null) {
+            petDto.setError(String.format("The user %s don't exists!", email));
+            return petDto;
+        }
+
+        if (petDto.getUserId().equals(user.getUserId())) {
+            petDto.setError("Why do you want to adopt the pet you own?");
+            return petDto;
+        }
+
+        if (!userService.isAdmin(petDto.getUserEmail())) {
+            petDto.setError("This pet cannot be adopted cause' is not added by an admin user!");
+            return petDto;
+        }
+
+        petDto = PetDto.builder()
+                .addopted("YES")
+                .fosterId(user.getUserId())
+                .build();
+        Pet pet = mapToPersist(petDto);
+        pet.setFoster(User.builder().userId(user.getUserId()).build());
+        petRepository.saveAndFlush(pet);
+
+        return petDto;
     }
 
 }

@@ -1,0 +1,594 @@
+{
+	"info": {
+		"_postman_id": "29db3a87-263d-4d02-ba8d-939d85bc2126",
+		"name": "Bug Hunting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6727318"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"userFirstName2\",\r\n\"lastName\":\"userLastName2\",\r\n\"phone\":\"12345678\",\r\n\"email\":\"user2@gmail.com\",\r\n\"password\":\"password\",\r\n\"role\":\"USER\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateUser",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"firstName\":\"firstName333\",\r\n\"lastName\":\"lastName333\",\r\n\"email\":\"email333@gmail.com\",\r\n\"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/users/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"user2@gmail.com\",\r\n\"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"email@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/users/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userById",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"email@gmail.com\",\r\n\"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users/delete/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"delete",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"email@gmail.com\",\r\n\"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/users?email=admin@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "admin@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "newCategories",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"\",\r\n    \"category\": \"Fish\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/categories/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"categories",
+						"save"
+					]
+				},
+				"description": "save categories"
+			},
+			"response": []
+		},
+		{
+			"name": "breeds save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"\",\r\n    \"idCategory\": null,\r\n    \"category\": \"Cats\",\r\n    \"breed\": \"Others\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/breeds/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"breeds",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "breeds",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"\",\r\n    \"idCategory\": null,\r\n    \"category\": \"Dogs\",\r\n    \"breed\": \"chiwawa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/breeds",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"breeds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "locations save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": null,\r\n    \"address\": \"address1\",\r\n    \"name\": \"location1\",\r\n    \"phoneNumber\": \"phoneNumber\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/locations/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"locations",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "locations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": null,\r\n    \"address\": \"address1\",\r\n    \"name\": \"location1\",\r\n    \"phoneNumber\": \"phoneNumber\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save pet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": null,\r\n    \"name\": \"Rocco\",\r\n    \"age\": 2,\r\n    \"ownersName\": \"ownerName\",\r\n    \"ownersPhone\": \"owner phone\",\r\n    \"ownersEmail\": \"owner email\",\r\n    \"gender\": \"MALE\",\r\n    \"addopted\": \"YES\",\r\n    \"fosterId\": null,\r\n    \"fosterName\": null,\r\n    \"fosterEmail\": null,\r\n    \"fosterPhone\": null,\r\n    \"fosterRole\": null,\r\n    \"categoryId\": null,\r\n    \"category\": \"Dogs\",\r\n    \"breedId\": null,\r\n    \"breed\": \"chiwawa\",\r\n    \"locationId\": null,\r\n    \"locationAddress\": null,\r\n    \"locationName\": \"location1\",\r\n    \"locationPhoneNumber\": null,\r\n    \"description\": \"Daaaaamn. It's crazy!\",\r\n    \"userId\": \"1\",\r\n    \"userEmail\": null,\r\n    \"userPhone\": null,\r\n    \"userRole\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/pets/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"pets",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adoptPet",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "petId",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/pets/adoptPet",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"pets",
+						"adoptPet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "categories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "email",
+						"value": "user1@gmail.com",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

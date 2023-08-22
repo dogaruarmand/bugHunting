@@ -9,4 +9,6 @@ public interface PetService {
     public List<PetDto> findMyPets(String user);
 
     public PetDto save(PetDto pet);
+
+    public PetDto addoptPet(Integer petId, String email);
 }
