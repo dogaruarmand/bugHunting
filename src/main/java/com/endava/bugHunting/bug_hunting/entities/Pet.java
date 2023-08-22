@@ -7,15 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-        name = "PETS",
-        uniqueConstraints = {
-//                @UniqueConstraint(
-//                        columnNames = {"BREED"},
-//                        name = "UK_BREED"
-//                )
-        }
-)
+@Table(name = "PETS")
 @Data
 @Builder
 @NoArgsConstructor
