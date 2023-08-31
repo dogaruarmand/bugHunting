@@ -39,6 +39,7 @@ public class PetDto {
     private String userPhone;
     private String userRole;
     private String error;
+    private String image;
 
     public boolean hasErrors() {
         if(error == null) {

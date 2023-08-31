@@ -61,4 +61,6 @@ public class Pet {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "image", nullable = false)
+    private String image;
 }

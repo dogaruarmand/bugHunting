@@ -38,14 +38,14 @@ create table pets2
     ID             bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name           varchar(50)  not null,
     age            smallint     not null,
-    owners_name    varchar(50)  not null,
-    owners_phone   varchar(20)  not null,
-    owners_email   varchar(50)  not null,
+    owners_name    varchar(50)  null,
+    owners_phone   varchar(20)  null,
+    owners_email   varchar(50)  null,
     gender         varchar(6)   not null,
     addopted       varchar(3)   not null,
-    foster_user_id bigint,
+    foster_user_id bigint       null,
     category_id    bigint       not null,
-    breed_id       bigint       not null,
+    breed_id       bigint       null,
     location_id    bigint       not null,
     description    varchar(500) not null,
     user_id        bigint       not null
@@ -66,11 +66,11 @@ ALTER TABLE pets2
 ALTER TABLE pets2
     ADD CONSTRAINT fk_pet2_location FOREIGN KEY (location_id) REFERENCES locations2 (id);
 
-ALTER TABLE pets2
-    ADD CONSTRAINT pet2_gender_check
-        CHECK (
-            gender in ('MALE', 'FEMALE')
-            );
+--ALTER TABLE pets2
+--    ADD CONSTRAINT pet2_gender_check
+--        CHECK (
+--            gender in ('Male', 'Female')
+--            );
 
 ALTER TABLE pets2
     ADD CONSTRAINT pet2_addopted_check

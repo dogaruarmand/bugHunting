@@ -10,6 +10,9 @@ ALTER TABLE pets2
 alter table pets alter column breed_id type varchar(30);
 alter table pets2 alter column breed_id type varchar(30);
 
+alter table pets add column image varchar(50);
+alter table pets2 add column image varchar(50);
+
 -- drop table pets cascade;
 -- drop table pets2 cascade;
 --
