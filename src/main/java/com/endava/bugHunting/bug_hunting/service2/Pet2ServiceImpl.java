@@ -1,6 +1,8 @@
 package com.endava.bugHunting.bug_hunting.service2;
 
 import com.endava.bugHunting.bug_hunting.dto.*;
+import com.endava.bugHunting.bug_hunting.entities.Pet;
+import com.endava.bugHunting.bug_hunting.entities.User;
 import com.endava.bugHunting.bug_hunting.entities2.*;
 import com.endava.bugHunting.bug_hunting.repository2.Pet2Repository;
 import jakarta.transaction.Transactional;
@@ -78,19 +80,19 @@ public class Pet2ServiceImpl implements Pet2Service {
             }
         }
 
-        if (StringUtils.isEmpty(dto.getBreed())) {
-            dto.setError("Breed should not be empty!");
-            return dto;
-        } else {
-            BreedDto breed = breedService.findBreed(dto.getBreed());
-
-            if (breed.hasErrors()) {
-                dto.setError(breed.getError());
-                return dto;
-            } else {
-                dto.setBreedId(breed.getId());
-            }
-        }
+//        if (StringUtils.isEmpty(dto.getBreed())) {
+//            dto.setError("Breed should not be empty!");
+//            return dto;
+//        } else {
+//            BreedDto breed = breedService.findBreed(dto.getBreed());
+//
+//            if (breed.hasErrors()) {
+//                dto.setError(breed.getError());
+//                return dto;
+//            } else {
+//                dto.setBreedId(breed.getId());
+//            }
+//        }
 
         if (StringUtils.isEmpty(dto.getLocationName())) {
             dto.setError("Location name should not be empty!");
@@ -187,8 +189,8 @@ public class Pet2ServiceImpl implements Pet2Service {
                 .addopted(pet.getAddopted())
                 .categoryId(pet.getType().getId())
                 .category(pet.getType().getCategory())
-                .breedId(pet.getBreed().getId())
-                .breed(pet.getBreed().getBreed())
+//                .breedId(pet.getBreed().getId())
+                .breed(pet.getBreed())
                 .locationId(pet.getLocation().getId())
                 .locationAddress(pet.getLocation().getAddress())
                 .locationName(pet.getLocation().getName())
@@ -202,13 +204,11 @@ public class Pet2ServiceImpl implements Pet2Service {
                 .build();
 
         if (pet.getFoster() != null) {
-            petDto = PetDto.builder()
-                    .fosterId(pet.getFoster().getUserId())
-                    .fosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName())
-                    .fosterEmail(pet.getFoster().getEmail())
-                    .fosterPhone(pet.getFoster().getPhone())
-                    .fosterRole((pet.getFoster().getRole()))
-                    .build();
+            petDto.setFosterId(pet.getFoster().getUserId());
+            petDto.setFosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName());
+            petDto.setFosterEmail(pet.getFoster().getEmail());
+            petDto.setFosterPhone(pet.getFoster().getPhone());
+            petDto.setFosterRole((pet.getFoster().getRole()));
         }
         return petDto;
     }
@@ -227,7 +227,7 @@ public class Pet2ServiceImpl implements Pet2Service {
                 .user(User2.builder().userId(dto.getUserId()).build())
                 .addopted(dto.getAddopted())
                 .type(Category2.builder().id(dto.getCategoryId()).build())
-                .breed(Breed2.builder().id(dto.getBreedId()).build())
+                .breed(dto.getBreed())
                 .location(Location2.builder().id(dto.getLocationId()).build())
                 .description(dto.getDescription())
                 .build();
@@ -271,14 +271,12 @@ public class Pet2ServiceImpl implements Pet2Service {
             return petDto;
         }
 
-        petDto = PetDto.builder()
-                .addopted("YES")
-                .fosterId(user.getUserId())
-                .build();
+        petDto.setAddopted("YES");
+        petDto.setFosterId(user.getUserId());
         Pet2 pet = mapToPersist(petDto);
         pet.setFoster(User2.builder().userId(user.getUserId()).build());
-        petRepository.saveAndFlush(pet);
-
+        pet = petRepository.saveAndFlush(pet);
+        petDto = mapToDto(pet);
         return petDto;
     }
 

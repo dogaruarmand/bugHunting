@@ -43,9 +43,8 @@ public class Pet {
     @JoinColumn(name = "category_id", nullable = false)
     private Category type;
 
-    @ManyToOne
-    @JoinColumn(name = "breed_id", nullable = false)
-    private Breed breed;
+    @Column(name = "breed_id", nullable = true)
+    private String breed;
 
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)

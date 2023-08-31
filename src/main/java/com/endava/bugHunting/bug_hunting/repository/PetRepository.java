@@ -16,7 +16,9 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
             where 
                 pets.user_id = users.user_id 
                 and users.role = 'ADMIN'
-                or users.user_id = ?1 
+                or users.user_id = ?1
+            order by 
+                pets.id desc 
             """, nativeQuery = true)
     public List<Pet> findAllByUser(Integer userId);
 

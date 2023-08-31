@@ -1,5 +1,6 @@
 package com.endava.bugHunting.bug_hunting.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +29,7 @@ public class UserDto {
     }
 
     public boolean hasErrors() {
-        if(errorMsg == null) {
+        if (errorMsg == null) {
             return false;
         }
         return !StringUtils.isEmpty(errorMsg);
