@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "29db3a87-263d-4d02-ba8d-939d85bc2126",
-		"name": "Bug Hunting",
+		"_postman_id": "92ddeaa1-0466-4c4b-90cb-80a8298d9978",
+		"name": "Bug Hunting Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6727318"
+		"_exporter_id": "27136571"
 	},
 	"item": [
 		{
@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"firstName\":\"userFirstName2\",\r\n\"lastName\":\"userLastName2\",\r\n\"phone\":\"12345678\",\r\n\"email\":\"user2@gmail.com\",\r\n\"password\":\"password\",\r\n\"role\":\"USER\" \r\n}",
+					"raw": "{\r\n\"firstName\":\"userName\",\r\n\"lastName\":\"userLastName\",\r\n\"phone\":\"+07412345678\",\r\n\"email\":\"user@gmail.com\",\r\n\"password\":\"password\",\r\n\"role\":\"USER\" \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,12 +21,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/v1/users/register",
+					"raw": "http://localhost:8080/api/v1/users/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -75,10 +75,21 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "email",
+						"value": "andrei.serdulet@endava.com",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "Parola12",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"email\":\"user2@gmail.com\",\r\n\"password\":\"password\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,12 +97,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/v1/users/login",
+					"raw": "http://localhost:8080/api/v1/users/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"api",
 						"v1",
@@ -463,22 +474,23 @@
 				"header": [
 					{
 						"key": "email",
-						"value": "user1@gmail.com",
-						"type": "text"
+						"value": "andrei.serdulet@endava.com",
+						"type": "text",
+						"disabled": true
 					},
 					{
-						"key": "password",
-						"value": "password",
+						"key": "email",
+						"value": "user@gmail.com",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8081/api/v1/pets",
+					"raw": "http://localhost:8080/api/v1/pets",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"api",
 						"v1",
