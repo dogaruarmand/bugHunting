@@ -27,7 +27,6 @@ public class PetDto {
     private String fosterRole;
     private Integer categoryId;
     private String category;
-    private Integer breedId;
     private String breed;
     private Integer locationId;
     private String locationAddress;
