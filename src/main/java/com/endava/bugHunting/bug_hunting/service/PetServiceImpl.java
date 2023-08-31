@@ -201,6 +201,7 @@ public class PetServiceImpl implements PetService {
                 .userEmail(pet.getUser().getEmail())
                 .userRole(pet.getUser().getRole())
                 .userName(pet.getUser().getFirstName() + " " + pet.getUser().getLastName())
+                .image(pet.getImage())
                 .build();
 
         if (pet.getFoster() != null) {
