@@ -10,5 +10,5 @@ public interface PetService {
 
     public PetDto save(PetDto pet);
 
-    public PetDto addoptPet(Integer petId, String email);
+    public PetDto adoptPet(Integer petId, String email);
 }

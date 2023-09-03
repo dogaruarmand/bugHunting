@@ -30,7 +30,7 @@ public class PetController {
 
     @PostMapping(value = "/adoptPet")
     public PetDto adoptPet(@RequestHeader Integer petId, @RequestHeader String email) {
-        PetDto pet = petService.addoptPet(petId, email);
+        PetDto pet = petService.adoptPet(petId, email);
         if(pet.hasErrors()) {
             throw new EntityNotFoundException(pet.getError());
         }

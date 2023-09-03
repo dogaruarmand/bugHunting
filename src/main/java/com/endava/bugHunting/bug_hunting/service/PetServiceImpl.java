@@ -1,18 +1,25 @@
 package com.endava.bugHunting.bug_hunting.service;
 
-import com.endava.bugHunting.bug_hunting.dto.*;
-import com.endava.bugHunting.bug_hunting.entities.*;
+import com.endava.bugHunting.bug_hunting.dto.AdoptionDto;
+import com.endava.bugHunting.bug_hunting.dto.CategoryDto;
+import com.endava.bugHunting.bug_hunting.dto.LocationDto;
+import com.endava.bugHunting.bug_hunting.dto.PetDto;
+import com.endava.bugHunting.bug_hunting.dto.UserDto;
+import com.endava.bugHunting.bug_hunting.entities.Adoption;
+import com.endava.bugHunting.bug_hunting.entities.Category;
+import com.endava.bugHunting.bug_hunting.entities.Location;
+import com.endava.bugHunting.bug_hunting.entities.Pet;
+import com.endava.bugHunting.bug_hunting.entities.User;
+import com.endava.bugHunting.bug_hunting.repository.AdoptionRepository;
 import com.endava.bugHunting.bug_hunting.repository.PetRepository;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -32,6 +39,9 @@ public class PetServiceImpl implements PetService {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private AdoptionRepository adoptionRepository;
 
 
     private PetDto validate(PetDto dto) {
@@ -204,13 +214,13 @@ public class PetServiceImpl implements PetService {
                 .image(pet.getImage())
                 .build();
 
-        if (pet.getFoster() != null) {
-            petDto.setFosterId(pet.getFoster().getUserId());
-            petDto.setFosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName());
-            petDto.setFosterEmail(pet.getFoster().getEmail());
-            petDto.setFosterPhone(pet.getFoster().getPhone());
-            petDto.setFosterRole((pet.getFoster().getRole()));
-        }
+//        if (pet.getFoster() != null) {
+//            petDto.setFosterId(pet.getFoster().getUserId());
+//            petDto.setFosterName(pet.getFoster().getLastName() + " " + pet.getFoster().getFirstName());
+//            petDto.setFosterEmail(pet.getFoster().getEmail());
+//            petDto.setFosterPhone(pet.getFoster().getPhone());
+//            petDto.setFosterRole((pet.getFoster().getRole()));
+//        }
         return petDto;
     }
 
@@ -233,14 +243,14 @@ public class PetServiceImpl implements PetService {
                 .description(dto.getDescription())
                 .build();
 
-        if(dto.getFosterId() != null) {
+        if (dto.getFosterId() != null) {
             pet.setFoster(User.builder().userId(dto.getFosterId()).build());
         }
 
         return pet;
     }
 
-    public PetDto addoptPet(Integer petId, String email) {
+    public PetDto adoptPet(Integer petId, String email) {
         PetDto petDto = new PetDto();
 
         Optional<Pet> petPersist = petRepository.findById(petId);
@@ -267,19 +277,31 @@ public class PetServiceImpl implements PetService {
             return petDto;
         }
 
-        if (!userService.isAdmin(petDto.getUserEmail())) {
-            petDto.setError("This pet cannot be adopted cause' is not added by an admin user!");
-            return petDto;
-        }
+        //check if animal is craeted by admin
+        //        if (!userService.isAdmin(petDto.getUserEmail())) {
+//            petDto.setError("This pet cannot be adopted cause' is not added by an admin user!");
+//            return petDto;
+//        }
 
-        petDto.setAddopted("YES");
-        petDto.setFosterId(user.getUserId());
-        Pet pet = mapToPersist(petDto);
-        pet.setFoster(User.builder().userId(user.getUserId()).build());
-        pet = petRepository.saveAndFlush(pet);
-        petDto = mapToDto(pet);
+        Adoption adoptionDto = mapToAdoption(petDto, user);
+        adoptionRepository.save(adoptionDto);
+//        petDto.setAddopted("YES");
+//        petDto.setFosterId(user.getUserId());
+//        Pet pet = mapToPersist(petDto);
+//        pet.setFoster(User.builder().userId(user.getUserId()).build());
+//        pet = petRepository.saveAndFlush(pet);
+//        petDto = mapToDto(pet);
 
         return petDto;
+    }
+
+    private Adoption mapToAdoption(PetDto petDto, UserDto user) {
+        Adoption adoption = Adoption.builder()
+                .petId(petDto.getId())
+                .userId(user.getUserId())
+                .build();
+
+        return adoption;
     }
 
 }
